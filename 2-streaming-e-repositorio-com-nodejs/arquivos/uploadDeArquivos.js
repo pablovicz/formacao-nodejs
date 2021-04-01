@@ -1,4 +1,5 @@
-const fs = require('fs')
+const fs = require("fs");
+const path = require("path");
 
 /*  USANDO BUFFER -> NAO INDICADO, PARA A EXECUCAO ATÉ QUE SEJA FINALIZADA
 fs.readFile('./assets/dog.jpg', (erro, buffer) => {
@@ -12,9 +13,23 @@ fs.readFile('./assets/dog.jpg', (erro, buffer) => {
 })
 */
 
-// STREAM -> MAIS INDICADO, TRABALHA DE MANEIRA ASSINCRONO
-fs.createReadStream('./assets/dog.jpg')
-            .pipe(fs.createWriteStream('./assets/dog-stream.jpg'))
-            .on('finish', () => {
-              console.log('imagem foi escrita com sucesso')
-            })
+module.exports = (caminho, nomeDoArquivo, callBackImagemCriada) => {
+  // STREAM -> MAIS INDICADO, TRABALHA DE MANEIRA ASSINCRONO
+  const tiposValidos = ["jpg", "png", "jpeg"];
+  const tipo = path.extname(caminho);
+  const tipoEhValido = tiposValidos.indexOf(tipo.substring(1)) !== -1;
+
+  if (tipoEhValido) {
+    const novoCaminho = `./assets/imagens/${nomeDoArquivo}${tipo}`;
+
+    fs.createReadStream(caminho)
+      .pipe(fs.createWriteStream(novoCaminho))
+      .on("finish", () => {
+        callBackImagemCriada(false, novoCaminho);
+      });
+  } else {
+    const erro = "Tipo é inválido";
+    console.log("Erro! Tipo inválido!");
+    callBackImagemCriada(erro);
+  }
+};
