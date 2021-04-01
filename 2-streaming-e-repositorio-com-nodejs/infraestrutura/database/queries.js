@@ -1,4 +1,4 @@
-const conexao = requere('./conexao');
+const conexao = require('./conexao');
 
 const executaQuery = (query, parametros = '') => {
 
@@ -15,5 +15,7 @@ const executaQuery = (query, parametros = '') => {
   })
   
 }
+
+module.exports = executaQuery
 
 
