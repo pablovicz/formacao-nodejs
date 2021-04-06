@@ -1,11 +1,11 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const config = require('config');
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const config = require('config')
 
-
-const app = express();
 app.use(bodyParser.json())
 
-app.listen(config.get('api.porta'), () => {
-  console.log('Serving is running')
-})
+const roteador = require('./rotas/fornecedores')
+app.use('/api/fornecedores', roteador)
+
+app.listen(config.get('api.porta'), () => console.log('A API está funcionando!'))
