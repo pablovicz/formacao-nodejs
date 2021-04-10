@@ -1,11 +1,11 @@
-const bodyParser = require('body-parser')
-const pessoas = require('./pessoasRoute')
+//routes/index.js
 
-module.exports = app => {
+const bodyParser = require("body-parser");
 
-  app.use(bodyParser.json())
-  app.use(pessoas)
- 
-}
+const pessoas = require("./pessoasRoute");
+const niveis = require("./niveisRoute");
+const turmas = require("./turmasRoute");
 
-
+module.exports = (app) => {
+  app.use(bodyParser.json(), pessoas, niveis, turmas);
+};
